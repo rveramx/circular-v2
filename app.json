@@ -2,6 +2,17 @@
   "expo": {
     "name": "circular-v2",
     "slug": "circular-v2",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "extra": {
+      "eas": {
+        "projectId": "e8a93173-94d9-4604-9bf1-41078aaadd96"
+      }
+    },
+    "android": {
+      "package": "com.rveramx.circularv2"
+    },
+    "ios": {
+      "bundleIdentifier": "com.rveramx.circularv2"
+    }
   }
 }

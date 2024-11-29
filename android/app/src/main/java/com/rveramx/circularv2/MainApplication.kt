@@ -1,4 +1,4 @@
-package com.circularv2
+package com.rveramx.circularv2
 
 import android.app.Application
 import android.content.res.Configuration
