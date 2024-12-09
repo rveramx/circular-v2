@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "circular-v2",
     "name": "circular-v2",
     "slug": "circular-v2",
     "version": "1.0.0",

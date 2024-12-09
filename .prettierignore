@@ -1,0 +1,25 @@
+# Node modules & build
+node_modules/
+dist/
+build/
+.expo/
+coverage/
+
+# Native files
+ios/
+android/
+*.config.js
+*.lock
+*.gradle
+*.pbxproj
+*.plist
+*.properties
+*.xml
+
+# Cache and logs
+.DS_Store
+*.log
+.cache/
+
+# Environment and local files
+.env*
