@@ -4,6 +4,11 @@
     "name": "circular-v2",
     "slug": "circular-v2",
     "version": "1.0.0",
+    "icon": "./src/assets/images/icon.png",
+    "splash": {
+    "image": "./src/assets/images/splash.png",
+    "backgroundColor": "#28a739"
+    },
     "extra": {
       "eas": {
         "projectId": "e8a93173-94d9-4604-9bf1-41078aaadd96"
