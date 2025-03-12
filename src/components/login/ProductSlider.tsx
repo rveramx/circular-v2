@@ -40,7 +40,7 @@ const ProductSlider = () => {
     return () => {
       scrollX.stopAnimation();
     };
-  }, []);
+  }, [scrollX]);
 
   return (
     <View style={styles.container}>

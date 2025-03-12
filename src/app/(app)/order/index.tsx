@@ -4,9 +4,6 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
-  Platform,
-  StatusBar,
 } from 'react-native';
 import { Colors } from '@/utils/Constants';
 
@@ -32,7 +29,7 @@ export default function OrderScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.header}>Mis Pedidos</Text>
 
       {/* Contenedor de las pestañas */}
@@ -62,7 +59,7 @@ export default function OrderScreen() {
 
       {/* Contenido de la pestaña activa */}
       {renderTabContent()}
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -70,7 +67,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFF',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   header: {
     fontSize: 25,
