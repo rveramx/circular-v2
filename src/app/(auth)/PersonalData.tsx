@@ -1,6 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput, Alert, AppState, Platform, BackHandler, Modal, Pressable } from 'react-native';
-import {Colors} from '../../utils/Constants';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  Alert,
+  AppState,
+  Platform,
+  BackHandler,
+  Modal,
+  Pressable,
+} from 'react-native';
+import { Colors } from '../../utils/Constants';
 import CustomButton from '../../components/ui/CustomButton';
 import { router } from 'expo-router';
 
@@ -14,14 +27,11 @@ const PersonalData: React.FC = () => {
   });
   const [isGenderModalVisible, setIsGenderModalVisible] = useState(false);
 
-  const genderOptions = [
-    'Femenino',
-    'Masculino',
-  ];
+  const genderOptions = ['Femenino', 'Masculino'];
 
   const handleBirthDateChange = (text: string) => {
     const cleanText = text.replace(/[^\d]/g, '');
-    
+
     let formattedText = '';
     if (cleanText.length <= 2) {
       formattedText = cleanText;
@@ -32,7 +42,7 @@ const PersonalData: React.FC = () => {
     }
 
     if (formattedText.length <= 10) {
-      setFormData({...formData, birthDate: formattedText});
+      setFormData({ ...formData, birthDate: formattedText });
     }
   };
 
@@ -45,9 +55,7 @@ const PersonalData: React.FC = () => {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>Datos Personales</Text>
-          <Text style={styles.subtitle}>
-            Por favor, completa tus datos para continuar
-          </Text>
+          <Text style={styles.subtitle}>Por favor, completa tus datos para continuar</Text>
         </View>
 
         <View style={styles.form}>
@@ -57,7 +65,7 @@ const PersonalData: React.FC = () => {
               <TextInput
                 style={styles.standardInput}
                 value={formData.firstName}
-                onChangeText={(text) => setFormData({...formData, firstName: text})}
+                onChangeText={(text) => setFormData({ ...formData, firstName: text })}
                 placeholder="Ingresa tu nombre"
               />
             </View>
@@ -69,7 +77,7 @@ const PersonalData: React.FC = () => {
               <TextInput
                 style={styles.standardInput}
                 value={formData.lastName}
-                onChangeText={(text) => setFormData({...formData, lastName: text})}
+                onChangeText={(text) => setFormData({ ...formData, lastName: text })}
                 placeholder="Ingresa tus apellidos"
               />
             </View>
@@ -91,15 +99,9 @@ const PersonalData: React.FC = () => {
 
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Género</Text>
-            <Pressable 
-              style={styles.inputWrapper}
-              onPress={() => setIsGenderModalVisible(true)}
-            >
-              <Text style={[
-                styles.standardInput,
-                !formData.gender && styles.placeholderText
-              ]}>
-                {formData.gender || "Selecciona tu género"}
+            <Pressable style={styles.inputWrapper} onPress={() => setIsGenderModalVisible(true)}>
+              <Text style={[styles.standardInput, !formData.gender && styles.placeholderText]}>
+                {formData.gender || 'Selecciona tu género'}
               </Text>
             </Pressable>
 
@@ -117,14 +119,16 @@ const PersonalData: React.FC = () => {
                       key={option}
                       style={styles.modalOption}
                       onPress={() => {
-                        setFormData({...formData, gender: option});
+                        setFormData({ ...formData, gender: option });
                         setIsGenderModalVisible(false);
                       }}
                     >
-                      <Text style={[
-                        styles.modalOptionText,
-                        formData.gender === option && styles.modalOptionSelected
-                      ]}>
+                      <Text
+                        style={[
+                          styles.modalOptionText,
+                          formData.gender === option && styles.modalOptionSelected,
+                        ]}
+                      >
                         {option}
                       </Text>
                     </Pressable>
@@ -144,7 +148,7 @@ const PersonalData: React.FC = () => {
             disabled={loading}
             onPress={handleContinue}
             loading={loading}
-            title='Continuar'
+            title="Continuar"
           />
         </View>
       </View>
@@ -252,4 +256,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PersonalData; 
+export default PersonalData;

@@ -12,12 +12,11 @@ import {
   Platform,
   StatusBar,
 } from 'react-native';
-import { Feather as FeatherIcon, FontAwesome6,MaterialCommunityIcons } from '@expo/vector-icons'
+import { Feather as FeatherIcon, FontAwesome6, MaterialCommunityIcons } from '@expo/vector-icons';
 //import { useAuth } from '../../context/AuthContext';
 //import auth from '@react-native-firebase/auth';
 //import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 const ProfileScreen = () => {
   //const { signOut } = useAuth();
@@ -52,8 +51,8 @@ const ProfileScreen = () => {
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
 
-
-  {/*
+  {
+    /*
   useEffect(() => {
     const currentUser = auth().currentUser;
     if (currentUser) {
@@ -111,7 +110,8 @@ const ProfileScreen = () => {
       setIsLoading(false);
     }
   };
-*/}
+*/
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -121,12 +121,16 @@ const ProfileScreen = () => {
           <View style={styles.profileSection}>
             <Image
               alt=""
-              source={{ uri: photoURL || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' }}
+              source={{
+                uri:
+                  photoURL ||
+                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+              }}
               style={styles.profileImage}
             />
             <View style={styles.profileInfo}>
               <Text style={styles.userName}>{`${firstName} ${lastName}`.trim() || 'Usuario'}</Text>
-              
+
               <View style={styles.completeProfileContainer}>
                 <Text style={styles.completeProfileText}>Completar perfil</Text>
                 <View style={styles.progressContainer}>
@@ -154,31 +158,41 @@ const ProfileScreen = () => {
 
           {/* Stats */}
           <View style={styles.statsContainer}>
-          <View style={styles.statItem}>
-            <View style={styles.row}>
-              <FeatherIcon name="shopping-bag" size={24} color="#000" style={styles.statIcon} />
-              <Text style={styles.statNumber}>254</Text>
+            <View style={styles.statItem}>
+              <View style={styles.row}>
+                <FeatherIcon name="shopping-bag" size={24} color="#000" style={styles.statIcon} />
+                <Text style={styles.statNumber}>254</Text>
+              </View>
+              <Text style={styles.statLabel}>Pedidos</Text>
             </View>
-            <Text style={styles.statLabel}>Pedidos</Text>
-          </View>
-          <View style={styles.statDivider} />
-          <View style={styles.statItem}>
-            <View style={styles.row}>
-              <FontAwesome6 name="dollar-sign" size={24} color="#28A739" style={styles.statIcon} />
-              <Text style={styles.statNumber}>45</Text>
+            <View style={styles.statDivider} />
+            <View style={styles.statItem}>
+              <View style={styles.row}>
+                <FontAwesome6
+                  name="dollar-sign"
+                  size={24}
+                  color="#28A739"
+                  style={styles.statIcon}
+                />
+                <Text style={styles.statNumber}>45</Text>
+              </View>
+              <Text style={styles.statLabel}>dinero ahorrado</Text>
             </View>
-            <Text style={styles.statLabel}>dinero ahorrado</Text>
-          </View>
-          <View style={styles.statDivider} />
-          <View style={styles.statItem}>
-            <View style={styles.row}>
-              <MaterialCommunityIcons Icons name="food" size={24} color="#000" style={styles.statIcon} />
-              <Text style={styles.statNumber}>92 kg</Text>
+            <View style={styles.statDivider} />
+            <View style={styles.statItem}>
+              <View style={styles.row}>
+                <MaterialCommunityIcons
+                  Icons
+                  name="food"
+                  size={24}
+                  color="#000"
+                  style={styles.statIcon}
+                />
+                <Text style={styles.statNumber}>92 kg</Text>
+              </View>
+              <Text style={styles.statLabel}>comida salvada</Text>
             </View>
-            <Text style={styles.statLabel}>comida salvada</Text>
           </View>
-          </View>
-
 
           {/* Separador */}
           <View style={styles.separator} />
@@ -187,9 +201,7 @@ const ProfileScreen = () => {
           <View style={styles.menuContainer}>
             {menuItems.map((item, index) => (
               <React.Fragment key={item.id}>
-                <TouchableOpacity
-                  style={styles.menuItem}
-                  onPress={item.onPress}>
+                <TouchableOpacity style={styles.menuItem} onPress={item.onPress}>
                   <View style={styles.menuItemLeft}>
                     <MaterialCommunityIcons name={item.icon} size={24} color="#404040" />
                     <Text style={styles.menuItemText}>{item.title}</Text>
@@ -206,17 +218,18 @@ const ProfileScreen = () => {
           </View>
 
           {/* Botón de Cerrar Sesión */}
-          <View style={styles.logoutButtonContainer}> 
-          <TouchableOpacity
-            style={styles.logoutButtonFull}
-            //onPress={handleLogout}
-            disabled={isLoading}>
-            {isLoading ? (
-              <ActivityIndicator color="#FFF" />
-            ) : (
-              <Text style={styles.logoutButtonText}>Cerrar Sesión</Text>
-            )}
-          </TouchableOpacity>
+          <View style={styles.logoutButtonContainer}>
+            <TouchableOpacity
+              style={styles.logoutButtonFull}
+              //onPress={handleLogout}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <ActivityIndicator color="#FFF" />
+              ) : (
+                <Text style={styles.logoutButtonText}>Cerrar Sesión</Text>
+              )}
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </View>
@@ -268,8 +281,8 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    alignItems: 'center', 
-    marginBottom: 5, 
+    alignItems: 'center',
+    marginBottom: 5,
   },
   statIcon: {
     marginBottom: 5,
@@ -380,7 +393,7 @@ const styles = StyleSheet.create({
   progressTextContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: '5%'
+    paddingTop: '5%',
   },
   progressText: {
     fontSize: 12,
@@ -390,8 +403,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#007AFF',
     textDecorationLine: 'underline',
-    marginHorizontal: '20%'
+    marginHorizontal: '20%',
   },
 });
 
-export default ProfileScreen; 
+export default ProfileScreen;

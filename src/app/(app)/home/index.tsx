@@ -1,17 +1,16 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Text, ScrollView, StyleSheet, View, Alert, Platform } from 'react-native';
 
 import * as Location from 'expo-location';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {Colors} from '@/utils/Constants';
-import { getImages, ImageDataType } from '@/utils/GetSupabase'
+import { Colors } from '@/utils/Constants';
+import { getImages, ImageDataType } from '@/utils/GetSupabase';
 
-import AdCarousal from '@/components/home/AdCarousal'
+import AdCarousal from '@/components/home/AdCarousal';
 import Restaurants from '@/components/home/RestaurantCard';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useLocationStore from '@/utils/home/locationUser';
-
 
 const HomeScreen = () => {
   const scrollRef = useRef<ScrollView>(null);
@@ -32,8 +31,8 @@ const HomeScreen = () => {
         //Guardar el estado de rechazo
         await AsyncStorage.setItem('locationDeniedInHome', 'true');
         Alert.alert(
-          "Permiso denegado",
-          "Necesitamos acceso a tu ubicación para mostrarte los restaurantes cercanos"
+          'Permiso denegado',
+          'Necesitamos acceso a tu ubicación para mostrarte los restaurantes cercanos'
         );
         return;
       }
@@ -42,7 +41,7 @@ const HomeScreen = () => {
         let location = await Location.getCurrentPositionAsync({});
         setUserLocation({
           latitude: location.coords.latitude,
-          longitude: location.coords.longitude
+          longitude: location.coords.longitude,
         });
         setLocation(location);
       } catch (error) {
@@ -62,18 +61,18 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView ref={scrollRef} contentContainerStyle={{ paddingBottom: '33%' }}>        
+      <ScrollView ref={scrollRef} contentContainerStyle={{ paddingBottom: '33%' }}>
         <View style={styles.containerData}>
           <AdCarousal adData={adImages} />
         </View>
         <Text style={styles.header}>Las mejores opciones cerca de ti</Text>
-          <Restaurants />
+        <Restaurants />
         <Text style={styles.header}>Ofertas cerca de ti</Text>
         <Restaurants />
       </ScrollView>
     </SafeAreaView>
   );
-}; 
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     fontWeight: 'bold',
     paddingHorizontal: '3.5%',
-    paddingVertical: '2%'
+    paddingVertical: '2%',
   },
   errorText: {
     color: 'red',

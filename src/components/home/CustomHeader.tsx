@@ -1,13 +1,21 @@
-import { View, Text, StyleSheet, TouchableOpacity, Platform, StatusBar, useWindowDimensions } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+  StatusBar,
+  useWindowDimensions,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 
 import { Ionicons, FontAwesome6 } from '@expo/vector-icons';
 import { Link, router } from 'expo-router';
 import Constants from 'expo-constants';
 
-import {Colors} from '../../utils/Constants';
+import { Colors } from '../../utils/Constants';
 import useLocationStore from '@/utils/home/locationUser';
-import CustomSafeAreaView from '@/components/global/CustomSafeAreaView'
+import CustomSafeAreaView from '@/components/global/CustomSafeAreaView';
 import SearchBar from '@/components/ui/SearchBar';
 import UserLocation from '@/app/(modal)/UserLocation';
 
@@ -18,7 +26,7 @@ const CustomHeader = () => {
   const [isLocationModalVisible, setIsLocationModalVisible] = useState(false);
 
   const googleApiKey = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
-    
+
   useEffect(() => {
     const getLocationName = async () => {
       if (mapLocation?.latitude && mapLocation?.longitude) {
@@ -27,16 +35,15 @@ const CustomHeader = () => {
             `https://maps.googleapis.com/maps/api/geocode/json?latlng=${mapLocation.latitude},${mapLocation.longitude}&key=${googleApiKey}`
           );
           const data = await response.json();
-          
+
           if (data.results && data.results.length > 0) {
             // Buscamos el componente más específico (normalmente el sector o urbanización)
             const addressComponents = data.results[0].address_components;
             const sublocality = addressComponents.find(
-              (component: any) => 
-                component.types.includes('sublocality') || 
-                component.types.includes('neighborhood')
+              (component: any) =>
+                component.types.includes('sublocality') || component.types.includes('neighborhood')
             );
-            
+
             if (sublocality) {
               setLocationName(sublocality.long_name);
             } else {
@@ -54,27 +61,26 @@ const CustomHeader = () => {
     getLocationName();
   }, [mapLocation]);
 
-  return (  
+  return (
     <CustomSafeAreaView>
-      <StatusBar 
-        barStyle="dark-content"
-        backgroundColor="#fff"
-        translucent={true}
-      />
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" translucent={true} />
       <View style={styles.headerWrapper}>
         <View style={styles.container}>
-            <TouchableOpacity style={styles.locationButton} onPress={() => setIsLocationModalVisible(true)}>
-              <FontAwesome6 name="location-dot" size={30} color={'#eb1c24'} />          
-              <View style={styles.locationTextContainer}>
-                <Text style={styles.title}>Seleccionar ubicación</Text>
-                <View style={styles.locationName}>
-                  <Text style={styles.subtitle}>{locationName}</Text>
-                  <Ionicons name="chevron-down" size={20} color={'gray'} />
-                </View>
+          <TouchableOpacity
+            style={styles.locationButton}
+            onPress={() => setIsLocationModalVisible(true)}
+          >
+            <FontAwesome6 name="location-dot" size={30} color={'#eb1c24'} />
+            <View style={styles.locationTextContainer}>
+              <Text style={styles.title}>Seleccionar ubicación</Text>
+              <View style={styles.locationName}>
+                <Text style={styles.subtitle}>{locationName}</Text>
+                <Ionicons name="chevron-down" size={20} color={'gray'} />
               </View>
-            </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
         </View>
-        <SearchBar 
+        <SearchBar
           containerStyle={{
             paddingHorizontal: width < 380 ? '4%' : '4%',
           }}
@@ -84,7 +90,7 @@ const CustomHeader = () => {
           iconSize={20}
         />
       </View>
-      <UserLocation 
+      <UserLocation
         isVisible={isLocationModalVisible}
         onClose={() => setIsLocationModalVisible(false)}
       />

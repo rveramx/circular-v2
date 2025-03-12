@@ -6,8 +6,8 @@
     "version": "1.0.0",
     "icon": "./src/assets/images/icon.png",
     "splash": {
-    "image": "./src/assets/images/splash.png",
-    "backgroundColor": "#28a739"
+      "image": "./src/assets/images/splash.png",
+      "backgroundColor": "#28a739"
     },
     "extra": {
       "eas": {

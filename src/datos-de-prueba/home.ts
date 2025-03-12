@@ -1,4 +1,4 @@
-import { sendIntent } from "expo-linking";
+import { sendIntent } from 'expo-linking';
 
 export const restaurants = [
   {

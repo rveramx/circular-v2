@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
-import { View, Alert, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
-import {Colors} from '../../utils/Constants';
-import { Feather as FeatherIcon } from '@expo/vector-icons'
-import CustomButton from '../../components/ui/CustomButton'
+import {
+  View,
+  Alert,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
+import { Colors } from '../../utils/Constants';
+import { Feather as FeatherIcon } from '@expo/vector-icons';
+import CustomButton from '../../components/ui/CustomButton';
 import { router, useNavigation, useLocalSearchParams } from 'expo-router';
 //import auth from '@react-native-firebase/auth';
 //import firestore from '@react-native-firebase/firestore';
@@ -11,11 +21,12 @@ interface Props {}
 
 const CodeConfirmation: React.FC<Props> = () => {
   const navigation = useNavigation();
-   const [code, setCode] = useState('');
+  const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
   const { verificationId, phoneNumber } = useLocalSearchParams();
 
-  {/*
+  {
+    /*
   const confirmCode = async () => {
     try {
       setLoading(true);
@@ -73,57 +84,59 @@ const CodeConfirmation: React.FC<Props> = () => {
     } finally {
       setLoading(false);
     }
-  }; */}
+  }; */
+  }
 
   const handleContinue = () => {
     router.push('/(auth)/PersonalData');
   };
 
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#f4eff3' }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.headerAction} onPress={() => navigation.goBack()}>
-            <FeatherIcon name='arrow-left' size={24} color='white' />
-          </TouchableOpacity>
-          <Text style={styles.title}>Introduce el código</Text>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <TouchableOpacity style={styles.headerAction} onPress={() => navigation.goBack()}>
+              <FeatherIcon name="arrow-left" size={24} color="white" />
+            </TouchableOpacity>
+            <Text style={styles.title}>Introduce el código</Text>
 
-          <Text style={styles.subtitle}>
-            Hemos enviado un código al número <Text style={{ color: '#222' }}>{phoneNumber}</Text>, por favor escribe el código para continuar
-          </Text>
-        </View>
-
-        <View style={styles.form}>
-          <View style={styles.formInput}>
-            <TextInput 
-              autoCapitalize='none'
-              autoCorrect={false}
-              caretHidden
-              keyboardType='number-pad'
-              returnKeyType='done'
-              onChangeText={(value) => setCode(value.slice(0, 6))}
-              style={styles.formInputControl} 
-              value={code}
-            />
-
-            <View style={styles.formInputOverflow}>
-              {Array.from({ length: 6 }).map((_, index) => (
-                <Text key={index} style={styles.formInputChar}>
-                  {code[index] || <Text style={styles.formInputCharEmpty}>-</Text>}
-                </Text>
-              ))}
-            </View>
+            <Text style={styles.subtitle}>
+              Hemos enviado un código al número <Text style={{ color: '#222' }}>{phoneNumber}</Text>
+              , por favor escribe el código para continuar
+            </Text>
           </View>
-          <CustomButton
-          disabled={code?.length != 6}
-          //onPress={confirmCode}
-          onPress={handleContinue}
-          loading={loading}
-          title='Continuar' />
+
+          <View style={styles.form}>
+            <View style={styles.formInput}>
+              <TextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                caretHidden
+                keyboardType="number-pad"
+                returnKeyType="done"
+                onChangeText={(value) => setCode(value.slice(0, 6))}
+                style={styles.formInputControl}
+                value={code}
+              />
+
+              <View style={styles.formInputOverflow}>
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <Text key={index} style={styles.formInputChar}>
+                    {code[index] || <Text style={styles.formInputCharEmpty}>-</Text>}
+                  </Text>
+                ))}
+              </View>
+            </View>
+            <CustomButton
+              disabled={code?.length != 6}
+              //onPress={confirmCode}
+              onPress={handleContinue}
+              loading={loading}
+              title="Continuar"
+            />
+          </View>
         </View>
-      </View>
       </TouchableWithoutFeedback>
     </SafeAreaView>
   );

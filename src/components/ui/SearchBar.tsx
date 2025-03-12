@@ -1,4 +1,12 @@
-import { View, TextInput, StyleSheet, TouchableWithoutFeedback, Keyboard, ViewStyle, TextStyle } from 'react-native';
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ViewStyle,
+  TextStyle,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../../utils/Constants';
 
@@ -14,7 +22,7 @@ interface SearchBarProps {
 }
 
 const SearchBar = ({
-  placeholder = "Buscar",
+  placeholder = 'Buscar',
   containerStyle,
   inputStyle,
   iconSize = 20,
@@ -27,13 +35,8 @@ const SearchBar = ({
     <View style={[styles.searchContainer, containerStyle]}>
       <View style={styles.searchSection}>
         <View style={[styles.searchField, { backgroundColor }]}>
-          <Ionicons 
-            name="search" 
-            size={iconSize} 
-            color={iconColor} 
-            style={styles.searchIcon}
-          />
-          <TextInput 
+          <Ionicons name="search" size={iconSize} color={iconColor} style={styles.searchIcon} />
+          <TextInput
             style={[styles.input, inputStyle]}
             placeholder={placeholder}
             placeholderTextColor={Colors.medium}
@@ -75,4 +78,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchBar; 
+export default SearchBar;

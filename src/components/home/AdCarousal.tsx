@@ -17,40 +17,35 @@ const AdCarousal: FC<{ adData: any }> = ({ adData }) => {
   useEffect(() => {
     if (isAutoPlay) {
       const interval = setInterval(() => {
-        const nextIndex = (currentIndex + 1) % adData.length; 
+        const nextIndex = (currentIndex + 1) % adData.length;
         flatListRef.current?.scrollToIndex({
           index: nextIndex,
-          animated: true,  
+          animated: true,
         });
       }, 5000);
-  
-      return () => clearInterval(interval); 
+
+      return () => clearInterval(interval);
     }
   }, [isAutoPlay, currentIndex, adData.length]);
-  
 
   const handleScroll = (e: any) => {
     const offsetX = e.nativeEvent.contentOffset.x;
-    const newIndex = Math.floor(offsetX / ITEM_WIDTH); 
+    const newIndex = Math.floor(offsetX / ITEM_WIDTH);
 
-    setCurrentIndex(newIndex); 
-    setPaginationIndex(newIndex); 
+    setCurrentIndex(newIndex);
+    setPaginationIndex(newIndex);
   };
 
   const handleScrollBeginDrag = () => {
-    setIsAutoPlay(false); 
+    setIsAutoPlay(false);
   };
 
   const handleScrollEndDrag = () => {
-    setIsAutoPlay(true); 
+    setIsAutoPlay(true);
   };
 
   const renderItem = ({ item, index }: { item: ImageDataType; index: number }) => {
-    const inputRange = [
-      (index - 1) * ITEM_WIDTH,
-      index * ITEM_WIDTH,
-      (index + 1) * ITEM_WIDTH,
-    ];
+    const inputRange = [(index - 1) * ITEM_WIDTH, index * ITEM_WIDTH, (index + 1) * ITEM_WIDTH];
 
     const scale = scrollX.interpolate({
       inputRange,
@@ -74,30 +69,28 @@ const AdCarousal: FC<{ adData: any }> = ({ adData }) => {
     offset: ITEM_WIDTH * index,
     index,
   });
-  
 
   return (
     <View style={styles.container}>
       <Animated.FlatList
-            ref={flatListRef}
-            data={adData}
-            horizontal
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
-            snapToInterval={ITEM_WIDTH}
-            decelerationRate="fast"
-            contentContainerStyle={styles.contentContainer}
-            onMomentumScrollEnd={handleScroll}
-            onScrollBeginDrag={handleScrollBeginDrag}
-            onScrollEndDrag={handleScrollEndDrag}
-            onScroll={Animated.event(
-                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-                { useNativeDriver: true }
-            )}
-            renderItem={renderItem}
-            keyExtractor={(_, index) => index.toString()}
-            getItemLayout={getItemLayout}
-        />
+        ref={flatListRef}
+        data={adData}
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        snapToInterval={ITEM_WIDTH}
+        decelerationRate="fast"
+        contentContainerStyle={styles.contentContainer}
+        onMomentumScrollEnd={handleScroll}
+        onScrollBeginDrag={handleScrollBeginDrag}
+        onScrollEndDrag={handleScrollEndDrag}
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
+          useNativeDriver: true,
+        })}
+        renderItem={renderItem}
+        keyExtractor={(_, index) => index.toString()}
+        getItemLayout={getItemLayout}
+      />
     </View>
   );
 };
@@ -106,7 +99,7 @@ const styles = StyleSheet.create({
   container: {
     height: ITEM_HEIGHT,
     marginTop: '13%',
-    marginBottom: '5%'
+    marginBottom: '5%',
   },
   contentContainer: {},
   itemContainer: {

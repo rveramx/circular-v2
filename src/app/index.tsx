@@ -1,10 +1,10 @@
-import React,{ useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, StyleSheet, Dimensions, Image, Pressable, Animated, Text } from 'react-native';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
-import { Colors } from '../utils/Constants'
+import { Colors } from '../utils/Constants';
 
 const { width } = Dimensions.get('window');
 
@@ -16,22 +16,22 @@ const slides = [
   {
     id: 1,
     image: require('../assets/start/market.png'),
-    title: 'Elige tu tienda de preferencia'
+    title: 'Elige tu tienda de preferencia',
   },
   {
     id: 2,
     image: require('../assets/start/carrito.png'),
-    title: 'Todos los productos con 50% de descuento'
+    title: 'Todos los productos con 50% de descuento',
   },
   {
     id: 3,
     image: require('../assets/start/delivery.png'),
-    title: 'Elige delivery o pick-up'
+    title: 'Elige delivery o pick-up',
   },
   {
     id: 4,
     image: require('../assets/start/orden.png'),
-    title: '¡Disfruta tu pedido!'
+    title: '¡Disfruta tu pedido!',
   },
 ];
 
@@ -75,7 +75,6 @@ export default function HomeScreen() {
     }
   }, [currentIndex]);
 
-
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -86,30 +85,21 @@ export default function HomeScreen() {
           showsHorizontalScrollIndicator={false}
           onMomentumScrollEnd={onMomentumScrollEnd}
           scrollEventThrottle={16}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-            { useNativeDriver: true }
-          )}
+          onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
+            useNativeDriver: true,
+          })}
         >
           {slides.map((slide, index) => (
             <View key={slide.id} style={styles.slideContainer}>
               <Text style={styles.slideTitle}>{slide.title}</Text>
-              <Image
-                source={slide.image}
-                style={styles.image}
-                resizeMode="contain"
-              />
+              <Image source={slide.image} style={styles.image} resizeMode="contain" />
             </View>
           ))}
         </Animated.ScrollView>
 
         <View style={styles.pagination}>
           {slides.map((_, index) => {
-            const inputRange = [
-              (index - 1) * width,
-              index * width,
-              (index + 1) * width,
-            ];
+            const inputRange = [(index - 1) * width, index * width, (index + 1) * width];
 
             const scaleX = scrollX.interpolate({
               inputRange,
@@ -138,8 +128,8 @@ export default function HomeScreen() {
                     opacity,
                     transform: [{ scaleX }],
                     backgroundColor: Colors.primary,
-                    borderRadius
-                  }
+                    borderRadius,
+                  },
                 ]}
               />
             );

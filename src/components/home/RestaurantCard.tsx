@@ -1,17 +1,26 @@
 import React, { useRef } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image, Pressable, Dimensions, Animated } from 'react-native';
-import { restaurants } from '@/datos-de-prueba/home'; 
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Image,
+  Pressable,
+  Dimensions,
+  Animated,
+} from 'react-native';
+import { restaurants } from '@/datos-de-prueba/home';
 import { router } from 'expo-router';
 import { Colors } from '@/utils/Constants';
 
 const screenWidth = Dimensions.get('window').width;
 
 const Restaurants = () => {
-  const fadeAnim = useRef(new Animated.Value(1)).current; 
+  const fadeAnim = useRef(new Animated.Value(1)).current;
 
   const onPressIn = () => {
     Animated.timing(fadeAnim, {
-      toValue: 0.6, 
+      toValue: 0.6,
       duration: 200,
       useNativeDriver: false,
     }).start();
@@ -29,13 +38,14 @@ const Restaurants = () => {
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.scrollViewContentContainer}>
+      contentContainerStyle={styles.scrollViewContentContainer}
+    >
       {restaurants.map((restaurant, index) => (
-        <Pressable 
-          key={index} 
+        <Pressable
+          key={index}
           style={styles.touchable}
-          onPressIn={onPressIn} 
-          onPressOut={onPressOut} 
+          onPressIn={onPressIn}
+          onPressOut={onPressOut}
           onPress={() => router.push('/screens/home/StoreDetails')}
         >
           <Animated.View style={[styles.categoryCard, { opacity: fadeAnim }]}>
@@ -108,7 +118,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   ratingText: {
-    fontSize: 14
+    fontSize: 14,
   },
   distanceText: {
     fontSize: 14,

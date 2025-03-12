@@ -20,4 +20,4 @@ const useUserLocation = create<UserLocation>((set) => ({
   setMapLocation: (location) => set({ mapLocation: location }),
 }));
 
-export default useUserLocation; 
+export default useUserLocation;

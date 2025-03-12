@@ -7,4 +7,4 @@ const baseWidth = 375;
 
 export const responsiveSize = (size: number): number => {
   return Math.round((SCREEN_WIDTH / baseWidth) * size);
-}; 
+};

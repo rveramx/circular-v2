@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { 
-  View, 
-  StyleSheet, 
-  Modal, 
-  SafeAreaView, 
-  Pressable, 
+import {
+  View,
+  StyleSheet,
+  Modal,
+  SafeAreaView,
+  Pressable,
   TextInput,
   FlatList,
-  Image
+  Image,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import CustomText from '../ui/CustomText';
@@ -26,17 +26,18 @@ const CountryPickerModal = ({
   isVisible,
   onClose,
   onSelectCountry,
-  initialCountry
+  initialCountry,
 }: CountryPickerModalProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredCountries, setFilteredCountries] = useState(countries);
 
   const handleSearch = (text: string) => {
     setSearchQuery(text);
-    const filtered = countries.filter(country => 
-      country.name.toLowerCase().includes(text.toLowerCase()) ||
-      country.dial_code.includes(text) ||
-      country.code.toLowerCase().includes(text.toLowerCase())
+    const filtered = countries.filter(
+      (country) =>
+        country.name.toLowerCase().includes(text.toLowerCase()) ||
+        country.dial_code.includes(text) ||
+        country.code.toLowerCase().includes(text.toLowerCase())
     );
     setFilteredCountries(filtered);
   };
@@ -47,19 +48,13 @@ const CountryPickerModal = ({
   };
 
   const renderCountryItem = ({ item }: { item: Country }) => (
-    <Pressable 
-      style={styles.countryItem}
-      onPress={() => handleCountrySelect(item)}
-    >
-      <Image
-        source={{ uri: item.flag }}
-        style={styles.countryFlag}
-      />
+    <Pressable style={styles.countryItem} onPress={() => handleCountrySelect(item)}>
+      <Image source={{ uri: item.flag }} style={styles.countryFlag} />
       <View style={styles.countryInfo}>
-        <CustomText variant='h6' fontFamily={Fonts.SemiBold}>
+        <CustomText variant="h6" fontFamily={Fonts.SemiBold}>
           {item.name}
         </CustomText>
-        <CustomText variant='h6' style={styles.countryCode}>
+        <CustomText variant="h6" style={styles.countryCode}>
           {item.dial_code}
         </CustomText>
       </View>
@@ -67,24 +62,19 @@ const CountryPickerModal = ({
   );
 
   return (
-    <Modal
-      visible={isVisible}
-      animationType="slide"
-      transparent={false}
-      onRequestClose={onClose}
-    >
+    <Modal visible={isVisible} animationType="slide" transparent={false} onRequestClose={onClose}>
       <SafeAreaView style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <View style={styles.modalHeader}>
             <Pressable onPress={onClose}>
-              <Feather 
-                name="chevron-down" 
-                size={24} 
+              <Feather
+                name="chevron-down"
+                size={24}
                 color={Colors.text}
                 style={{ transform: [{ rotate: '-270deg' }] }}
               />
             </Pressable>
-            <CustomText variant='h4' fontFamily={Fonts.Bold}>
+            <CustomText variant="h4" fontFamily={Fonts.Bold}>
               Seleccionar país
             </CustomText>
             <View style={{ width: 24 }} />
@@ -102,7 +92,7 @@ const CountryPickerModal = ({
           <FlatList
             data={filteredCountries}
             renderItem={renderCountryItem}
-            keyExtractor={item => item.code}
+            keyExtractor={(item) => item.code}
             showsVerticalScrollIndicator={false}
           />
         </View>
@@ -163,4 +153,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CountryPickerModal; 
+export default CountryPickerModal;

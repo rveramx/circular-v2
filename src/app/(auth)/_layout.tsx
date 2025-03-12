@@ -1,31 +1,30 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 
-
 export default function LoginLayout() {
   return (
     <>
       <StatusBar style="auto" />
-      <Stack screenOptions={{ animation: 'slide_from_right'}}>
+      <Stack screenOptions={{ animation: 'slide_from_right' }}>
         <Stack.Screen
-            name="index"
-            options={{
+          name="index"
+          options={{
             headerShown: false,
-            }}
+          }}
         />
         <Stack.Screen
-            name="CodeConfirmation"
-            options={{
+          name="CodeConfirmation"
+          options={{
             headerShown: false,
-            }}
+          }}
         />
         <Stack.Screen
-            name="PersonalData"
-            options={{
+          name="PersonalData"
+          options={{
             headerShown: false,
             gestureEnabled: false,
-            statusBarStyle: 'dark'
-            }}
+            statusBarStyle: 'dark',
+          }}
         />
       </Stack>
     </>

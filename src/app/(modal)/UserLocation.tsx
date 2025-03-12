@@ -37,90 +37,85 @@ const UserLocation: React.FC<UserLocationProps> = ({ isVisible, onClose }) => {
   const googleApiKey = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
 
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={isVisible}
-      onRequestClose={onClose}
-    >
+    <Modal animationType="slide" transparent={true} visible={isVisible} onRequestClose={onClose}>
       <StatusBar style="light" backgroundColor="#F4EFF3" />
-        <View style={styles.header}>
-          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-            <Ionicons name="close-outline" size={28} color={Colors.primary} />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>Selecciona tu ubicación</Text>
-        </View>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+          <Ionicons name="close-outline" size={28} color={Colors.primary} />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Selecciona tu ubicación</Text>
+      </View>
 
-        <GooglePlacesAutocomplete
-          placeholder="Buscar ubicación"
-          fetchDetails={true}
-          onPress={(data, details) => {
-            const point = details?.geometry?.location;
-            if (point) {
-              setLocation({
-                ...location,
-                latitude: point.lat,
-                longitude: point.lng,
-              });
-              setSelectedLocation({
-                latitude: point.lat,
-                longitude: point.lng,
-              });
-            }
-          }}
-          query={{
-            key: googleApiKey,
-            language: 'es',
-            components: 'country:ve'
-          }}
-          renderLeftButton={() => (
-            <View style={styles.boxIcon}>
-              <Ionicons name="search-outline" size={24} color={Colors.medium} />
-            </View>
-          )}
-          styles={{
-            container: { flex: 0 },
-            textInput: {
-              backgroundColor: '#EBEAEB',
-              paddingLeft: 35,
-              borderRadius: 10,
-            },
-            textInputContainer: {
-              padding: 8,
-              backgroundColor: '#fff',
-            },
+      <GooglePlacesAutocomplete
+        placeholder="Buscar ubicación"
+        fetchDetails={true}
+        onPress={(data, details) => {
+          const point = details?.geometry?.location;
+          if (point) {
+            setLocation({
+              ...location,
+              latitude: point.lat,
+              longitude: point.lng,
+            });
+            setSelectedLocation({
+              latitude: point.lat,
+              longitude: point.lng,
+            });
+          }
+        }}
+        query={{
+          key: googleApiKey,
+          language: 'es',
+          components: 'country:ve',
+        }}
+        renderLeftButton={() => (
+          <View style={styles.boxIcon}>
+            <Ionicons name="search-outline" size={24} color={Colors.medium} />
+          </View>
+        )}
+        styles={{
+          container: { flex: 0 },
+          textInput: {
+            backgroundColor: '#EBEAEB',
+            paddingLeft: 35,
+            borderRadius: 10,
+          },
+          textInputContainer: {
+            padding: 8,
+            backgroundColor: '#fff',
+          },
+        }}
+      />
+
+      <MapView
+        provider={PROVIDER_GOOGLE}
+        showsUserLocation={true}
+        style={styles.map}
+        region={location}
+        onPress={handleMapPress}
+      >
+        <Marker
+          coordinate={selectedLocation}
+          pinColor="red"
+          draggable
+          onDragEnd={(e) => {
+            const { latitude, longitude } = e.nativeEvent.coordinate;
+            setSelectedLocation({ latitude, longitude });
           }}
         />
+      </MapView>
 
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          showsUserLocation={true}
-          style={styles.map}
-          region={location}
-          onPress={handleMapPress}
+      <View style={styles.absoluteBox}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            setMapLocation(selectedLocation);
+            onClose();
+          }}
         >
-          <Marker
-            coordinate={selectedLocation}
-            pinColor="red"
-            draggable
-            onDragEnd={(e) => {
-              const { latitude, longitude } = e.nativeEvent.coordinate;
-              setSelectedLocation({ latitude, longitude });
-            }}
-          />
-        </MapView>
-
-        <View style={styles.absoluteBox}>
-          <TouchableOpacity 
-            style={styles.button} 
-            onPress={() => {
-              setMapLocation(selectedLocation);
-              onClose();
-            }}
-          >
-            <Text style={styles.buttonText}>Confirmar ubicación</Text>
-          </TouchableOpacity>
-        </View>
+          <Text style={styles.buttonText}>Confirmar ubicación</Text>
+        </TouchableOpacity>
+      </View>
     </Modal>
   );
 };
@@ -153,7 +148,7 @@ const styles = StyleSheet.create({
   },
   absoluteBox: {
     position: 'absolute',
-    bottom: "5%",
+    bottom: '5%',
     left: 0,
     right: 0,
     alignItems: 'center',

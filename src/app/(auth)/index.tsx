@@ -6,7 +6,7 @@ import { Feather } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { hp } from '@/utils/Scaling';
 import { countries } from '@/utils/countries';
-import { Colors, Fonts } from '@/utils/Constants'
+import { Colors, Fonts } from '@/utils/Constants';
 import ProductSlider from '@/components/login/ProductSlider';
 import CustomText from '@/components/ui/CustomText';
 import CustomInput from '@/components/ui/CustomInput';
@@ -15,44 +15,46 @@ import CountryPickerModal from '@/components/login/CountryPickerModal';
 
 export default function Login() {
   const insets = useSafeAreaInsets();
-  const [phoneNumber, setPhoneNumber] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(countries[countries.length - 1]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const formAnimation = useState(new Animated.Value(0))[0];
 
   useEffect(() => {
-    const keyboardWillShow = Platform.OS === 'ios' 
-      ? Keyboard.addListener('keyboardWillShow', () => {
-          Animated.timing(formAnimation, {
-            toValue: 1,
-            duration: 1000,
-            useNativeDriver: true,
-          }).start();
-        })
-      : Keyboard.addListener('keyboardDidShow', () => {
-          Animated.timing(formAnimation, {
-            toValue: 1,
-            duration: 1000,
-            useNativeDriver: true,
-          }).start();
-        });
+    const keyboardWillShow =
+      Platform.OS === 'ios'
+        ? Keyboard.addListener('keyboardWillShow', () => {
+            Animated.timing(formAnimation, {
+              toValue: 1,
+              duration: 1000,
+              useNativeDriver: true,
+            }).start();
+          })
+        : Keyboard.addListener('keyboardDidShow', () => {
+            Animated.timing(formAnimation, {
+              toValue: 1,
+              duration: 1000,
+              useNativeDriver: true,
+            }).start();
+          });
 
-    const keyboardWillHide = Platform.OS === 'ios'
-      ? Keyboard.addListener('keyboardWillHide', () => {
-          Animated.timing(formAnimation, {
-            toValue: 0,
-            duration: 1000,
-            useNativeDriver: true,
-          }).start();
-        })
-      : Keyboard.addListener('keyboardDidHide', () => {
-          Animated.timing(formAnimation, {
-            toValue: 0,
-            duration: 1000,
-            useNativeDriver: true,
-          }).start();
-        });
+    const keyboardWillHide =
+      Platform.OS === 'ios'
+        ? Keyboard.addListener('keyboardWillHide', () => {
+            Animated.timing(formAnimation, {
+              toValue: 0,
+              duration: 1000,
+              useNativeDriver: true,
+            }).start();
+          })
+        : Keyboard.addListener('keyboardDidHide', () => {
+            Animated.timing(formAnimation, {
+              toValue: 0,
+              duration: 1000,
+              useNativeDriver: true,
+            }).start();
+          });
 
     return () => {
       keyboardWillShow.remove();
@@ -63,74 +65,73 @@ export default function Login() {
   const handleContinue = () => {
     router.push('/(auth)/CodeConfirmation');
   };
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" />
       <View style={[styles.sliderContainer, { paddingTop: insets.top }]}>
-          <ProductSlider />
+        <ProductSlider />
       </View>
-      
-      <Animated.View 
+
+      <Animated.View
         style={[
           styles.formContent,
           {
-            transform: [{
-              translateY: formAnimation.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, -220]
-              })
-            }]
-          }
+            transform: [
+              {
+                translateY: formAnimation.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, -220],
+                }),
+              },
+            ],
+          },
         ]}
       >
-        <Image 
-              source={require('@/assets/icons/dish.png')} 
-              style={styles.logo} 
-            />
-            <CustomText variant='h2' fontFamily={Fonts.Bold}>
-              Dish
-            </CustomText>
-            <CustomText variant='h5' fontFamily={Fonts.SemiBold} style={styles.text}>
-              La app #1 de ahorro en Venezuela
-            </CustomText>
+        <Image source={require('@/assets/icons/dish.png')} style={styles.logo} />
+        <CustomText variant="h2" fontFamily={Fonts.Bold}>
+          Dish
+        </CustomText>
+        <CustomText variant="h5" fontFamily={Fonts.SemiBold} style={styles.text}>
+          La app #1 de ahorro en Venezuela
+        </CustomText>
 
-            <CustomInput
-              onChangeText={(text) => { 
-                setPhoneNumber(text.slice(0, selectedCountry.phoneLength)) 
+        <CustomInput
+          onChangeText={(text) => {
+            setPhoneNumber(text.slice(0, selectedCountry.phoneLength));
+          }}
+          onClear={() => setPhoneNumber('')}
+          value={phoneNumber}
+          left={
+            <Pressable
+              onPress={() => {
+                setIsModalVisible(true);
+                setPhoneNumber('');
               }}
-              onClear={() => setPhoneNumber('')}
-              value={phoneNumber}
-              left={
-                <Pressable 
-                  onPress={() => {
-                    setIsModalVisible(true);
-                    setPhoneNumber(''); 
-                  }}
-                  style={styles.leftContainer}
-                >
-                  <Image source={{ uri: selectedCountry.flag }} style={styles.flagIcon} />
-                  <CustomText style={styles.phoneText}>{selectedCountry.dial_code}</CustomText>
-                  <Feather name="chevron-down" size={20} color={Colors.text} style={styles.downIcon} />
-                </Pressable>
-              }
-              placeholder='Introduce tu número de teléfono'
-              inputMode='numeric'
-            />
+              style={styles.leftContainer}
+            >
+              <Image source={{ uri: selectedCountry.flag }} style={styles.flagIcon} />
+              <CustomText style={styles.phoneText}>{selectedCountry.dial_code}</CustomText>
+              <Feather name="chevron-down" size={20} color={Colors.text} style={styles.downIcon} />
+            </Pressable>
+          }
+          placeholder="Introduce tu número de teléfono"
+          inputMode="numeric"
+        />
 
-            <CountryPickerModal
-              isVisible={isModalVisible}
-              onClose={() => setIsModalVisible(false)}
-              onSelectCountry={setSelectedCountry}
-              initialCountry={selectedCountry}
-            />
+        <CountryPickerModal
+          isVisible={isModalVisible}
+          onClose={() => setIsModalVisible(false)}
+          onSelectCountry={setSelectedCountry}
+          initialCountry={selectedCountry}
+        />
 
-            <CustomButton
-              disabled={phoneNumber.length !== selectedCountry.phoneLength}
-              onPress={handleContinue}
-              loading={loading}
-              title='Continuar'
-            />
+        <CustomButton
+          disabled={phoneNumber.length !== selectedCountry.phoneLength}
+          onPress={handleContinue}
+          loading={loading}
+          title="Continuar"
+        />
       </Animated.View>
     </SafeAreaView>
   );

@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+  Platform,
+  StatusBar,
+} from 'react-native';
 import { Colors } from '@/utils/Constants';
 
 export default function OrderScreen() {
@@ -30,34 +38,22 @@ export default function OrderScreen() {
       {/* Contenedor de las pestañas */}
       <View style={styles.tabContainer}>
         <TouchableOpacity
-          style={[
-            styles.tabButton,
-            activeTab === 'active' && styles.activeTabButton,
-          ]}
+          style={[styles.tabButton, activeTab === 'active' && styles.activeTabButton]}
           onPress={() => setActiveTab('active')}
         >
           <Text
-            style={[
-              styles.tabButtonText,
-              activeTab === 'active' && styles.activeTabButtonText,
-            ]}
+            style={[styles.tabButtonText, activeTab === 'active' && styles.activeTabButtonText]}
           >
             Pedidos en curso
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[
-            styles.tabButton,
-            activeTab === 'completed' && styles.activeTabButton,
-          ]}
+          style={[styles.tabButton, activeTab === 'completed' && styles.activeTabButton]}
           onPress={() => setActiveTab('completed')}
         >
           <Text
-            style={[
-              styles.tabButtonText,
-              activeTab === 'completed' && styles.activeTabButtonText,
-            ]}
+            style={[styles.tabButtonText, activeTab === 'completed' && styles.activeTabButtonText]}
           >
             Pedidos exitosos
           </Text>
@@ -100,7 +96,7 @@ const styles = StyleSheet.create({
     color: '#888',
   },
   activeTabButtonText: {
-    color: Colors.primary, 
+    color: Colors.primary,
     fontWeight: 'bold',
   },
   tabContent: {
