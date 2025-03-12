@@ -4,7 +4,7 @@ import { Text, ScrollView, StyleSheet, View, Alert, Platform } from 'react-nativ
 import * as Location from 'expo-location';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {Colors} from '@/utils/Constants';
-import { adData } from '@/utils/dummyData'
+import { getImages, ImageDataType } from '@/utils/GetSupabase'
 
 import AdCarousal from '@/components/home/AdCarousal'
 import Restaurants from '@/components/home/RestaurantCard';
@@ -18,8 +18,8 @@ const HomeScreen = () => {
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const { setUserLocation } = useLocationStore();
+  const [adImages, setAdImages] = useState<ImageDataType[]>([]);
 
-   
   useEffect(() => {
     (async () => {
       //Verificar si ya se rechazó anteriormente
@@ -52,11 +52,19 @@ const HomeScreen = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    const loadAdImages = async () => {
+      const images = await getImages('ad');
+      setAdImages(images);
+    };
+    loadAdImages();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView ref={scrollRef} contentContainerStyle={{ paddingBottom: '33%' }}>        
         <View style={styles.containerData}>
-          <AdCarousal adData={adData} />
+          <AdCarousal adData={adImages} />
         </View>
         <Text style={styles.header}>Las mejores opciones cerca de ti</Text>
           <Restaurants />

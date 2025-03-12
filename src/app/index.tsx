@@ -75,11 +75,6 @@ export default function HomeScreen() {
     }
   }, [currentIndex]);
 
-  {/* 
-  const handleContinue = () => {
-    router.push('/(auth)');
-  };
-  */}
 
   return (
     <View style={{ flex: 1 }}>

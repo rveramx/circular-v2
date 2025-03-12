@@ -1,18 +1,27 @@
 import { View, StyleSheet, Image, Animated, Easing } from 'react-native'
-import React, { FC, useMemo, useEffect } from 'react'
-import { imageData } from '../../utils/dummyData';
-import { screenWidth } from '../../utils/Scaling';
+import React, { FC, useMemo, useEffect, useState } from 'react'
+import { getImages, ImageDataType } from '../../utils/GetSupabase'
+import { screenWidth, wp, hp } from '../../utils/Scaling'
 
 const ProductSlider = () => {
-    const scrollX = useMemo(() => new Animated.Value(0), []);
+    const scrollX = useMemo(() => new Animated.Value(0), [])
+    const [images, setImages] = useState<ImageDataType[]>([])
+
+    useEffect(() => {
+        const loadImages = async () => {
+            const imageData = await getImages('login')
+            setImages(imageData)
+        }
+        loadImages()
+    }, [])
 
     const rows = useMemo(() => {
-        const result = [];
-        for (let i = 0; i < imageData.length; i += 4) {
-            result.push(imageData.slice(i, i + 4))
+        const result = []
+        for (let i = 0; i < images.length; i += 4) {
+            result.push(images.slice(i, i + 4))
         }
         return result
-    }, [])
+    }, [images])
 
     useEffect(() => {
         const startAnimation = () => {
@@ -35,47 +44,54 @@ const ProductSlider = () => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.viewportContainer} pointerEvents='none'>
-                <Animated.View 
-                    style={[
-                        styles.gridContainer,
-                        {
-                            transform: [{
-                                translateX: scrollX.interpolate({
-                                    inputRange: [-screenWidth * 2, 0],
-                                    outputRange: [0, -screenWidth * 2],
-                                })
-                            }]
-                        }
-                    ]}
-                >
-                    <View style={styles.gridContent}>
-                        {rows?.map((row: any, rowIndex: number) => (
-                            <MemoizedRow key={`first-${rowIndex}`} row={row} rowIndex={rowIndex} />
-                        ))}
-                    </View>
-                    <View style={styles.gridContent}>
-                        {rows?.map((row: any, rowIndex: number) => (
-                            <MemoizedRow key={`second-${rowIndex}`} row={row} rowIndex={rowIndex} />
-                        ))}
-                    </View>
-                    <View style={styles.gridContent}>
-                        {rows?.map((row: any, rowIndex: number) => (
-                            <MemoizedRow key={`third-${rowIndex}`} row={row} rowIndex={rowIndex} />
-                        ))}
-                    </View>
-                </Animated.View>
-            </View>
+            {images.length > 0 && (
+                <View style={styles.viewportContainer} pointerEvents='none'>
+                    <Animated.View 
+                        style={[
+                            styles.gridContainer,
+                            {
+                                transform: [{
+                                    translateX: scrollX.interpolate({
+                                        inputRange: [-screenWidth * 2, 0],
+                                        outputRange: [0, -screenWidth * 2],
+                                    })
+                                }]
+                            }
+                        ]}
+                    >
+                        <View style={styles.gridContent}>
+                            <View>
+                                {rows?.map((row: any, rowIndex: number) => (
+                                    <MemoizedRow key={`first-bottom-${rowIndex}`} row={row} rowIndex={rowIndex} />
+                                ))}
+                            </View>
+                        </View>
+                        <View style={styles.gridContent}>
+                            <View>
+                                {rows?.map((row: any, rowIndex: number) => (
+                                    <MemoizedRow key={`second-bottom-${rowIndex}`} row={row} rowIndex={rowIndex} />
+                                ))}
+                            </View>
+                        </View>
+                        <View style={styles.gridContent}>
+                            <View>
+                                {rows?.map((row: any, rowIndex: number) => (
+                                    <MemoizedRow key={`third-bottom-${rowIndex}`} row={row} rowIndex={rowIndex} />
+                                ))}
+                            </View>
+                        </View>
+                    </Animated.View>
+                </View>
+            )}
         </View>
     )
 }
 
-
-const Row: FC<{ row: typeof imageData; rowIndex: number }> = ({ row, rowIndex }) => {
+const Row: FC<{ row: ImageDataType[]; rowIndex: number }> = ({ row, rowIndex }) => {
     return (
         <View style={styles.row}>
             {row.map((image, imageIndex) => {
-                const horizontalShift = rowIndex % 2 === 0 ? 0 : screenWidth * 0.14;
+                const horizontalShift = rowIndex % 2 === 0 ? 0 : screenWidth * 0.14
                 return (
                     <View 
                         key={imageIndex} 
@@ -87,7 +103,7 @@ const Row: FC<{ row: typeof imageData; rowIndex: number }> = ({ row, rowIndex })
                             }
                         ]}
                     >
-                        <Image source={image} style={styles.image} />
+                        <Image source={{ uri: image.url }} style={styles.image} />
                     </View>
                 )
             })}
@@ -97,11 +113,9 @@ const Row: FC<{ row: typeof imageData; rowIndex: number }> = ({ row, rowIndex })
 
 const MemoizedRow = React.memo(Row)
 
-
-
 const styles = StyleSheet.create({
     container: {
-        height: screenWidth * 1.2,
+        height: hp(65),
         width: '100%',
     },
     viewportContainer: {
@@ -109,11 +123,11 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         overflow: 'hidden',
-        paddingTop: 50,
+        paddingTop: hp(2),
     },
     itemContainer: {
-        width: screenWidth * 0.23,
-        height: screenWidth * 0.28,
+        width: wp(23),
+        height: wp(28),
         backgroundColor: '#e9f7f8',
         justifyContent: 'center',
         borderRadius: 25,
@@ -140,7 +154,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         justifyContent: 'space-between',
         alignItems: 'center',
-        width: screenWidth * 0.98,
+        width: wp(98),
         alignSelf: 'center',
     }
 })

@@ -1,8 +1,18 @@
 import { Dimensions, Platform } from "react-native";
 
-const { width, height } = Dimensions.get('window');
-export const screenWidth: number = width;
-export const screenHeight: number = height;
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+
+// Porcentajes de pantalla
+export const wp = (percentage: number) => {
+  return (SCREEN_WIDTH * percentage) / 100;
+};
+
+export const hp = (percentage: number) => {
+  return (SCREEN_HEIGHT * percentage) / 100;
+};
+
+export const screenWidth: number = SCREEN_WIDTH;
+export const screenHeight: number = SCREEN_HEIGHT;
 
 export const NoticeHeight = Platform.OS === 'ios' ? screenHeight * 0.12 : screenHeight * 0.07;
 

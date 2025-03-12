@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   categoryText: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   ratingText: {

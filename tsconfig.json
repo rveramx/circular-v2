@@ -7,5 +7,9 @@
     },
     "jsx": "react-native"
   },
-  "extends": "expo/tsconfig.base"
+  "extends": "expo/tsconfig.base",
+  "include": [
+    "src/**/*",
+    "env.d.ts"
+  ]
 }

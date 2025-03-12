@@ -8,7 +8,6 @@ import { StatusBar } from 'expo-status-bar';
 
 import useLocationStore from '@/utils/home/locationUser';
 import { Colors } from '@/utils/Constants';
-import {GOOGLE_API_KEY} from "@env"
 
 interface UserLocationProps {
   isVisible: boolean;
@@ -35,8 +34,9 @@ const UserLocation: React.FC<UserLocationProps> = ({ isVisible, onClose }) => {
     setSelectedLocation({ latitude, longitude });
   };
 
+  const googleApiKey = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
+
   return (
-    
     <Modal
       animationType="slide"
       transparent={true}
@@ -69,7 +69,7 @@ const UserLocation: React.FC<UserLocationProps> = ({ isVisible, onClose }) => {
             }
           }}
           query={{
-            key: GOOGLE_API_KEY,
+            key: googleApiKey,
             language: 'es',
             components: 'country:ve'
           }}

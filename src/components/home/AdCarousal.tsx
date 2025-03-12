@@ -2,6 +2,7 @@ import { View, StyleSheet, Image, Animated, FlatList } from 'react-native';
 import React, { FC, useRef, useState, useEffect } from 'react';
 import { screenWidth } from '../../utils/Scaling';
 import ScalePress from '../global/ScalePress';
+import { ImageDataType } from '@/utils/GetSupabase';
 
 const ITEM_WIDTH = screenWidth - 40;
 const ITEM_HEIGHT = ITEM_WIDTH * 0.5;
@@ -44,7 +45,7 @@ const AdCarousal: FC<{ adData: any }> = ({ adData }) => {
     setIsAutoPlay(true); 
   };
 
-  const renderItem = ({ item, index }: { item: any; index: number }) => {
+  const renderItem = ({ item, index }: { item: ImageDataType; index: number }) => {
     const inputRange = [
       (index - 1) * ITEM_WIDTH,
       index * ITEM_WIDTH,
@@ -61,7 +62,7 @@ const AdCarousal: FC<{ adData: any }> = ({ adData }) => {
       <View style={styles.itemContainer}>
         <ScalePress>
           <Animated.View style={[styles.imageContainer, { transform: [{ scale }] }]}>
-            <Image source={item} style={styles.img} />
+            <Image source={{ uri: item.url }} style={styles.img} />
           </Animated.View>
         </ScalePress>
       </View>

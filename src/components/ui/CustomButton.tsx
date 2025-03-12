@@ -1,6 +1,6 @@
 import { Colors, Fonts } from "../../utils/Constants";
 import { FC } from "react";
-import { ActivityIndicator, StyleSheet, TouchableOpacity } from "react-native";
+import { ActivityIndicator, StyleSheet, TouchableOpacity, ViewStyle } from "react-native";
 import CustomText from "./CustomText";
 
 interface CustomButtonProps {
@@ -8,16 +8,17 @@ interface CustomButtonProps {
     title: string;
     disabled: boolean;
     loading: boolean;
+    style?: ViewStyle;
 }
 
 const CustomButton: FC<CustomButtonProps>
-    = ({ onPress, title, disabled, loading }) => {
+    = ({ onPress, title, disabled, loading, style }) => {
         return (
             <TouchableOpacity
                 onPress={onPress}
                 disabled={disabled}
                 activeOpacity={0.8}
-                style={[styles.btn, {
+                style={[styles.btn, style, {
                     backgroundColor: disabled ? Colors.disabled : Colors.primary
                 }]}
             >

@@ -10,20 +10,21 @@ import useLocationStore from '@/utils/home/locationUser';
 import CustomSafeAreaView from '@/components/global/CustomSafeAreaView'
 import SearchBar from '@/components/ui/SearchBar';
 import UserLocation from '@/app/(modal)/UserLocation';
-import { GOOGLE_API_KEY } from '@env';
 
 const CustomHeader = () => {
   const { width } = useWindowDimensions();
   const { mapLocation } = useLocationStore();
   const [locationName, setLocationName] = useState('Caracas');
   const [isLocationModalVisible, setIsLocationModalVisible] = useState(false);
+
+  const googleApiKey = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
     
   useEffect(() => {
     const getLocationName = async () => {
       if (mapLocation?.latitude && mapLocation?.longitude) {
         try {
           const response = await fetch(
-            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${mapLocation.latitude},${mapLocation.longitude}&key=${GOOGLE_API_KEY}`
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${mapLocation.latitude},${mapLocation.longitude}&key=${googleApiKey}`
           );
           const data = await response.json();
           

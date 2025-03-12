@@ -1,6 +1,8 @@
+import { sendIntent } from "expo-linking";
+
 export const restaurants = [
   {
-    name: 'Gama Express',
+    name: 'Gama Express - San Bernardino',
     rating: '5 Excellent',
     ratings: '(500+)',
     distance: '0.7 miles away',

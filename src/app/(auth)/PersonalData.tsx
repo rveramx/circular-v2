@@ -1,88 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput, Alert, AppState, Platform, BackHandler } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput, Alert, AppState, Platform, BackHandler, Modal, Pressable } from 'react-native';
 import {Colors} from '../../utils/Constants';
-//import { Feather as FeatherIcon } from '@expo/vector-icons'
 import CustomButton from '../../components/ui/CustomButton';
-import { router, useLocalSearchParams } from 'expo-router';
-//import auth from '@react-native-firebase/auth';
-//import firestore from '@react-native-firebase/firestore';
+import { router } from 'expo-router';
 
 const PersonalData: React.FC = () => {
-  const { phoneNumber } = useLocalSearchParams();
   const [loading, setLoading] = useState(false);
-  const appState = useRef(AppState.currentState);
-  const backgroundTimeRef = useRef<Date | null>(null);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     birthDate: '',
     gender: '',
   });
+  const [isGenderModalVisible, setIsGenderModalVisible] = useState(false);
 
   const genderOptions = [
     'Femenino',
     'Masculino',
-    'No binario',
-    'Prefiero no decirlo'
   ];
-
-  useEffect(() => {
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      if (Platform.OS === 'android') {
-        BackHandler.exitApp();
-      }
-      return true;
-    });
-
-    return () => backHandler.remove();
-  }, []);
-
-  const handleSubmit = async () => {
-    try {
-      setLoading(true);
-      
-      if (!formData.firstName || !formData.lastName || !formData.birthDate || !formData.gender) {
-        Alert.alert('Error', 'Por favor, completa todos los campos');
-        return;
-      }
-
-      const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/(19|20)\d\d$/;
-      if (!dateRegex.test(formData.birthDate)) {
-        Alert.alert('Error', 'Por favor, ingresa una fecha válida en formato dd/mm/aaaa');
-        return;
-      }
-
-      const userData = {
-        firstName: formData.firstName.trim(),
-        lastName: formData.lastName.trim(),
-        birthDate: formData.birthDate,
-        gender: formData.gender,
-        phoneNumber: phoneNumber as string,
-        //createdAt: firestore.FieldValue.serverTimestamp(),
-        //updatedAt: firestore.FieldValue.serverTimestamp(),
-        //uid: currentUser.uid
-      };
-
-      router.replace('/screens/home');
-      
-    } catch (error) {
-      console.error('Error detallado:', {
-        error: error as Error,
-        message: (error as Error)?.message,
-        code: (error as any)?.code,
-        phoneNumber,
-        //userId: auth().currentUser?.uid
-      });
-      
-      Alert.alert(
-        'Error',
-        'Hubo un problema al guardar tus datos. Por favor, intenta nuevamente.'
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
 
   const handleBirthDateChange = (text: string) => {
     const cleanText = text.replace(/[^\d]/g, '');
@@ -156,25 +91,53 @@ const PersonalData: React.FC = () => {
 
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Género</Text>
-            <View style={styles.genderContainer}>
-              {genderOptions.map((option) => (
-                <TouchableOpacity
-                  key={option}
-                  style={[
-                    styles.genderOption,
-                    formData.gender === option && styles.genderOptionSelected
-                  ]}
-                  onPress={() => setFormData({...formData, gender: option})}
-                >
-                  <Text style={[
-                    styles.genderText,
-                    formData.gender === option && styles.genderTextSelected
-                  ]}>
-                    {option}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
+            <Pressable 
+              style={styles.inputWrapper}
+              onPress={() => setIsGenderModalVisible(true)}
+            >
+              <Text style={[
+                styles.standardInput,
+                !formData.gender && styles.placeholderText
+              ]}>
+                {formData.gender || "Selecciona tu género"}
+              </Text>
+            </Pressable>
+
+            <Modal
+              visible={isGenderModalVisible}
+              animationType="slide"
+              transparent={true}
+              onRequestClose={() => setIsGenderModalVisible(false)}
+            >
+              <View style={styles.modalContainer}>
+                <View style={styles.modalContent}>
+                  <Text style={styles.modalTitle}>Selecciona tu género</Text>
+                  {genderOptions.map((option) => (
+                    <Pressable
+                      key={option}
+                      style={styles.modalOption}
+                      onPress={() => {
+                        setFormData({...formData, gender: option});
+                        setIsGenderModalVisible(false);
+                      }}
+                    >
+                      <Text style={[
+                        styles.modalOptionText,
+                        formData.gender === option && styles.modalOptionSelected
+                      ]}>
+                        {option}
+                      </Text>
+                    </Pressable>
+                  ))}
+                  <Pressable
+                    style={styles.closeButton}
+                    onPress={() => setIsGenderModalVisible(false)}
+                  >
+                    <Text style={styles.closeButtonText}>Cerrar</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </Modal>
           </View>
 
           <CustomButton
@@ -242,29 +205,50 @@ const styles = StyleSheet.create({
     fontSize: 16,
     minHeight: 50,
   },
-  genderContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 10,
-  },
-  genderOption: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#889797',
-    backgroundColor: '#fff',
-  },
-  genderOptionSelected: {  
-    backgroundColor: Colors.primary,
-    borderColor: Colors.primary,
-  },
-  genderText: {
+  placeholderText: {
     color: '#889797',
-    fontSize: 14,
   },
-  genderTextSelected: {
-    color: '#fff',
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 20,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  modalOption: {
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  modalOptionText: {
+    fontSize: 16,
+    color: '#181818',
+  },
+  modalOptionSelected: {
+    color: Colors.primary,
+    fontWeight: 'bold',
+  },
+  closeButton: {
+    marginTop: 15,
+    padding: 15,
+    backgroundColor: Colors.primary,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
