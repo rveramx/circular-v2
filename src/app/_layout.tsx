@@ -1,35 +1,31 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 
-import { ThemeProvider } from '../context/ThemeContext';
-
 export default function RootLayout() {
   return (
-    <ThemeProvider>
+    <>
       <StatusBar style="auto" />
-      <Stack>
+      <Stack screenOptions={{ animation: 'slide_from_right' }}>
         <Stack.Screen
           name="index"
           options={{
-            title: 'Home',
+            title: 'start',
             headerShown: false,
           }}
         />
         <Stack.Screen
-          name="details/[id]"
+          name="(auth)"
           options={{
-            title: 'Details',
             headerShown: false,
           }}
         />
         <Stack.Screen
-          name="profile/[userId]"
+          name="(app)"
           options={{
-            title: 'Profile',
             headerShown: false,
           }}
         />
       </Stack>
-    </ThemeProvider>
+    </>
   );
 }
