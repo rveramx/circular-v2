@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Text, ScrollView, StyleSheet, View, Alert, Platform } from 'react-native';
 
 import * as Location from 'expo-location';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '@/utils/Constants';
 import { getImages, ImageDataType } from '@/utils/GetSupabase';
 
@@ -14,21 +13,19 @@ import useLocationStore from '@/utils/home/locationUser';
 
 const HomeScreen = () => {
   const scrollRef = useRef<ScrollView>(null);
-  const [location, setLocation] = useState<Location.LocationObject | null>(null);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  //const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [ ,setErrorMsg] = useState<string | null>(null);
   const { setUserLocation } = useLocationStore();
   const [adImages, setAdImages] = useState<ImageDataType[]>([]);
 
   useEffect(() => {
     (async () => {
-      //Verificar si ya se rechazó anteriormente
       const wasdenied = await AsyncStorage.getItem('locationDeniedInHome');
       if (wasdenied) return;
 
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('El permiso para acceder a la ubicación fue denegado');
-        //Guardar el estado de rechazo
         await AsyncStorage.setItem('locationDeniedInHome', 'true');
         Alert.alert(
           'Permiso denegado',
@@ -43,13 +40,12 @@ const HomeScreen = () => {
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
         });
-        setLocation(location);
       } catch (error) {
         setErrorMsg('Error al obtener la ubicación');
         console.error(error);
       }
     })();
-  }, []);
+  }, [setUserLocation]);
 
   useEffect(() => {
     const loadAdImages = async () => {
@@ -60,44 +56,40 @@ const HomeScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView ref={scrollRef} contentContainerStyle={{ paddingBottom: '33%' }}>
-        <View style={styles.containerData}>
-          <AdCarousal adData={adImages} />
-        </View>
-        <Text style={styles.header}>Las mejores opciones cerca de ti</Text>
-        <Restaurants />
-        <Text style={styles.header}>Ofertas cerca de ti</Text>
-        <Restaurants />
-      </ScrollView>
-    </SafeAreaView>
+    <ScrollView 
+      ref={scrollRef} 
+      contentContainerStyle={styles.scrollContent}
+      showsVerticalScrollIndicator={false}
+      style={styles.scrollView}
+    >
+      <View style={styles.containerData}>
+        <AdCarousal adData={adImages} />
+      </View>
+
+      <Text style={styles.header}>Las mejores opciones cerca de ti</Text>
+      <Restaurants />
+      <Text style={styles.header}>Ofertas cerca de ti</Text>
+      <Restaurants />
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  scrollView: {
+    flex: 1,
     backgroundColor: Colors.lightGrey,
-    paddingTop: Platform.OS === 'ios' ? 120 : 120,
+  },
+  scrollContent: {
+    paddingBottom: Platform.OS === 'ios' ? '35%' : '35%',
   },
   containerData: {
-    paddingTop: '3%',
     paddingHorizontal: '4%',
   },
   header: {
     fontSize: 23,
     fontWeight: 'bold',
-    paddingHorizontal: '3.5%',
-    paddingVertical: '2%',
-  },
-  errorText: {
-    color: 'red',
-    padding: 10,
-    textAlign: 'center',
-  },
-  locationText: {
-    padding: 10,
-    textAlign: 'center',
-    color: Colors.mediumDark,
+    paddingHorizontal: 15,
+    paddingVertical: 5,
   },
 });
 

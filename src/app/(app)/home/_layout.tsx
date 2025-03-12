@@ -10,6 +10,7 @@ export default function HomeLayout() {
           header: () => <CustomHeader />,
         }}
       />
+      {/* 
       <Stack.Screen
         name="Store"
         options={{
@@ -24,6 +25,8 @@ export default function HomeLayout() {
           animation: 'slide_from_right',
         }}
       />
+      */}
     </Stack>
+    
   );
 }

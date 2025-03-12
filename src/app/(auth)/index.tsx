@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Pressable, StyleSheet, View, Image, Animated, Keyboard, Platform } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { StatusBar } from 'expo-status-bar';
 import { Feather } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { hp } from '@/utils/Scaling';
@@ -14,7 +12,6 @@ import CustomButton from '@/components/ui/CustomButton';
 import CountryPickerModal from '@/components/login/CountryPickerModal';
 
 export default function Login() {
-  const insets = useSafeAreaInsets();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(countries[countries.length - 1]);
@@ -60,16 +57,15 @@ export default function Login() {
       keyboardWillShow.remove();
       keyboardWillHide.remove();
     };
-  }, []);
+  }, [formAnimation]);
 
   const handleContinue = () => {
     router.push('/(auth)/CodeConfirmation');
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="dark" />
-      <View style={[styles.sliderContainer, { paddingTop: insets.top }]}>
+    <View style={styles.container}>
+      <View style={[styles.sliderContainer]}>
         <ProductSlider />
       </View>
 
@@ -133,7 +129,7 @@ export default function Login() {
           title="Continuar"
         />
       </Animated.View>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -154,13 +150,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     left: 0,
     right: 0,
-    height: hp(50),
+    height: hp(60),
     backgroundColor: '#fff',
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     paddingHorizontal: '3%',
     paddingTop: 20,
-    marginTop: '130%',
+    marginTop: '120%',
   },
   logo: {
     height: 50,

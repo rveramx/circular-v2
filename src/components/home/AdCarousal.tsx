@@ -10,7 +10,6 @@ const ITEM_HEIGHT = ITEM_WIDTH * 0.5;
 const AdCarousal: FC<{ adData: any }> = ({ adData }) => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [paginationIndex, setPaginationIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
   const flatListRef = useRef<FlatList>(null);
 
@@ -31,9 +30,7 @@ const AdCarousal: FC<{ adData: any }> = ({ adData }) => {
   const handleScroll = (e: any) => {
     const offsetX = e.nativeEvent.contentOffset.x;
     const newIndex = Math.floor(offsetX / ITEM_WIDTH);
-
     setCurrentIndex(newIndex);
-    setPaginationIndex(newIndex);
   };
 
   const handleScrollBeginDrag = () => {
@@ -98,8 +95,8 @@ const AdCarousal: FC<{ adData: any }> = ({ adData }) => {
 const styles = StyleSheet.create({
   container: {
     height: ITEM_HEIGHT,
-    marginTop: '13%',
-    marginBottom: '5%',
+    marginTop: '7%',
+    marginBottom: '2%',
   },
   contentContainer: {},
   itemContainer: {

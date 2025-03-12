@@ -10,12 +10,9 @@ import {
 import React, { useEffect, useState } from 'react';
 
 import { Ionicons, FontAwesome6 } from '@expo/vector-icons';
-import { Link, router } from 'expo-router';
-import Constants from 'expo-constants';
 
 import { Colors } from '../../utils/Constants';
 import useLocationStore from '@/utils/home/locationUser';
-import CustomSafeAreaView from '@/components/global/CustomSafeAreaView';
 import SearchBar from '@/components/ui/SearchBar';
 import UserLocation from '@/app/(modal)/UserLocation';
 
@@ -53,17 +50,17 @@ const CustomHeader = () => {
           }
         } catch (error) {
           console.error('Error obteniendo nombre de ubicación:', error);
-          setLocationName('Venezuela');
+          setLocationName('Caracas');
         }
       }
     };
 
     getLocationName();
-  }, [mapLocation]);
+  }, [mapLocation, googleApiKey]);
 
   return (
-    <CustomSafeAreaView>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff" translucent={true} />
+    <>
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       <View style={styles.headerWrapper}>
         <View style={styles.container}>
           <TouchableOpacity
@@ -83,6 +80,7 @@ const CustomHeader = () => {
         <SearchBar
           containerStyle={{
             paddingHorizontal: width < 380 ? '4%' : '4%',
+            marginBottom: 10,
           }}
           placeholder="Busca tu tienda de preferencia"
           backgroundColor="#EBEAEB"
@@ -94,39 +92,24 @@ const CustomHeader = () => {
         isVisible={isLocationModalVisible}
         onClose={() => setIsLocationModalVisible(false)}
       />
-    </CustomSafeAreaView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 0,
-    backgroundColor: '#fff',
-  },
   headerWrapper: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
     backgroundColor: '#fff',
-    zIndex: 1000,
-    borderBottomWidth: 1,
+    borderBottomWidth: 2,
     borderBottomColor: '#ddd',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === 'ios' ? 50 : 20,
   },
   container: {
-    height: Platform.OS === 'ios' ? '50%' : '50%',
     backgroundColor: '#fff',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: '8%',
-    paddingTop: Platform.OS === 'ios' ? 20 : '10%',
-  },
-  titleContainer: {
-    flex: 1,
-    marginLeft: 10,
-    justifyContent: 'center',
+    paddingHorizontal: '7%',
+    paddingVertical: 5,
   },
   title: {
     fontSize: 14,
@@ -141,40 +124,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#1d1d1d',
   },
-  profileButton: {
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-    padding: 8,
-    borderRadius: 50,
-  },
-  searchContainer: {
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    backgroundColor: '#fff',
-  },
-  searchSection: {
-    backgroundColor: '#fff',
-  },
-  searchField: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#EBEAEB',
-    borderRadius: 15,
-    height: 50,
-    paddingHorizontal: 15,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    paddingHorizontal: 10,
-  },
-  searchIcon: {
-    marginRight: 6,
-    color: Colors.primary,
-  },
   locationButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: '2%',
+    gap: 5,
   },
   locationTextContainer: {
     marginLeft: 8,

@@ -3,7 +3,6 @@ import {
   View,
   StyleSheet,
   Modal,
-  SafeAreaView,
   Pressable,
   TextInput,
   FlatList,
@@ -26,7 +25,6 @@ const CountryPickerModal = ({
   isVisible,
   onClose,
   onSelectCountry,
-  initialCountry,
 }: CountryPickerModalProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredCountries, setFilteredCountries] = useState(countries);
@@ -63,7 +61,6 @@ const CountryPickerModal = ({
 
   return (
     <Modal visible={isVisible} animationType="slide" transparent={false} onRequestClose={onClose}>
-      <SafeAreaView style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <View style={styles.modalHeader}>
             <Pressable onPress={onClose}>
@@ -96,7 +93,6 @@ const CountryPickerModal = ({
             showsVerticalScrollIndicator={false}
           />
         </View>
-      </SafeAreaView>
     </Modal>
   );
 };

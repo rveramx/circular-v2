@@ -1,21 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
-  SafeAreaView,
   StyleSheet,
-  TouchableOpacity,
   TextInput,
-  Alert,
-  AppState,
-  Platform,
-  BackHandler,
   Modal,
   Pressable,
 } from 'react-native';
 import { Colors } from '../../utils/Constants';
 import CustomButton from '../../components/ui/CustomButton';
 import { router } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 
 const PersonalData: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -51,7 +46,6 @@ const PersonalData: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#f4eff3' }}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>Datos Personales</Text>
@@ -110,8 +104,14 @@ const PersonalData: React.FC = () => {
               animationType="slide"
               transparent={true}
               onRequestClose={() => setIsGenderModalVisible(false)}
+              statusBarTranslucent={true}
             >
+              <StatusBar style="light" />
               <View style={styles.modalContainer}>
+                <Pressable 
+                  style={styles.modalOverlay} 
+                  onPress={() => setIsGenderModalVisible(false)}
+                />
                 <View style={styles.modalContent}>
                   <Text style={styles.modalTitle}>Selecciona tu género</Text>
                   {genderOptions.map((option) => (
@@ -152,27 +152,18 @@ const PersonalData: React.FC = () => {
           />
         </View>
       </View>
-    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 60,
+    paddingTop: 20,
+    backgroundColor: '#F4EFF3'
   },
   header: {
     paddingHorizontal: 24,
     marginBottom: 28,
-  },
-  headerAction: {
-    width: 40,
-    height: 40,
-    backgroundColor: Colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 9999,
-    marginBottom: 16,
   },
   title: {
     fontSize: 34,
@@ -215,7 +206,10 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
     backgroundColor: 'white',

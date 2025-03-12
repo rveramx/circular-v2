@@ -1,25 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
-  SafeAreaView,
   View,
   ScrollView,
   Text,
   TouchableOpacity,
   Image,
-  Alert,
   ActivityIndicator,
-  Platform,
-  StatusBar,
 } from 'react-native';
 import { Feather as FeatherIcon, FontAwesome6, MaterialCommunityIcons } from '@expo/vector-icons';
-//import { useAuth } from '../../context/AuthContext';
-//import auth from '@react-native-firebase/auth';
-//import firestore from '@react-native-firebase/firestore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ProfileScreen = () => {
-  //const { signOut } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
   const menuItems = [
@@ -46,75 +37,7 @@ const ProfileScreen = () => {
     },
   ];
 
-  const [userEmail, setUserEmail] = useState<string | null>(null);
-  const [photoURL, setPhotoURL] = useState<string | null>(null);
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
-
-  {
-    /*
-  useEffect(() => {
-    const currentUser = auth().currentUser;
-    if (currentUser) {
-      setUserEmail(currentUser.email);
-      setPhotoURL(currentUser.photoURL);
-      
-      const getUserData = async () => {
-        try {
-          const userDoc = await firestore()
-            .collection('users')
-            .doc(currentUser.uid)
-            .get();
-          
-          if (userDoc.exists) {
-            const userData = userDoc.data();
-            setFirstName(userData?.firstName || '');
-            setLastName(userData?.lastName || '');
-          } else {
-            setFirstName('Usuario');
-            setLastName('');
-          }
-        } catch (error) {
-          setFirstName('Usuario');
-          setLastName('');
-        }
-      };
-      
-      getUserData();
-    }
-  }, []);
-
-  const handleLogout = async () => {
-    try {
-      setIsLoading(true);
-      // Limpiar AsyncStorage
-      await AsyncStorage.multiRemove([
-        'userToken',
-        'userData',
-        'locationDeniedInHome'
-      ]);
-      
-      // Cerrar sesión en Firebase
-      await auth().signOut();
-      
-      // Actualizar el contexto de autenticación
-      await signOut();
-      
-    } catch (error) {
-      console.error('Error al cerrar sesión:', error);
-      Alert.alert(
-        'Error',
-        'Hubo un problema al cerrar la sesión. Por favor, intenta de nuevo.'
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
-*/
-  }
-
   return (
-    <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* Perfil Info */}
@@ -123,13 +46,12 @@ const ProfileScreen = () => {
               alt=""
               source={{
                 uri:
-                  photoURL ||
                   'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
               }}
               style={styles.profileImage}
             />
             <View style={styles.profileInfo}>
-              <Text style={styles.userName}>{`${firstName} ${lastName}`.trim() || 'Usuario'}</Text>
+              <Text style={styles.userName}>Usuario</Text>
 
               <View style={styles.completeProfileContainer}>
                 <Text style={styles.completeProfileText}>Completar perfil</Text>
@@ -233,16 +155,10 @@ const ProfileScreen = () => {
           </View>
         </ScrollView>
       </View>
-    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#FFF',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
   container: {
     flex: 1,
     backgroundColor: '#FFF',

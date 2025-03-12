@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     padding: '3%',
   },
   touchable: {
-    marginRight: '1.5%',
+    marginRight: 20,
   },
   categoryCard: {
     width: screenWidth * 0.75,

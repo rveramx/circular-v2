@@ -1,5 +1,3 @@
-import { sendIntent } from 'expo-linking';
-
 export const restaurants = [
   {
     name: 'Gama Express - San Bernardino',

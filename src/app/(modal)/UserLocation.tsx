@@ -81,7 +81,7 @@ const UserLocation: React.FC<UserLocationProps> = ({ isVisible, onClose }) => {
             borderRadius: 10,
           },
           textInputContainer: {
-            padding: 8,
+            padding: 10,
             backgroundColor: '#fff',
           },
         }}
@@ -123,25 +123,22 @@ const UserLocation: React.FC<UserLocationProps> = ({ isVisible, onClose }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   header: {
-    height: 100,
-    backgroundColor: '#F4EFF3',
+    height: 80,
+    backgroundColor: '#fff',
     paddingHorizontal: 15,
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
-    paddingTop: '10%',
   },
   closeButton: {
-    marginRight: 15,
+    marginRight: 10,
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginLeft: 10,
   },
   map: {
     flex: 1,
